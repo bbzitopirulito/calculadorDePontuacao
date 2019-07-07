@@ -1,36 +1,115 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native'
-
+import { StyleSheet, Text, View, TextInput, Button, Picker } from 'react-native'
+import renderIf from './renderIf'
 export default class App extends Component{
   constructor(props) {
     super(props)
     this.state = {
       valor1:'Valor',
-      tipo1:'Tipo',
+      tipo1:0,
+      NorR:'Refinanciado',   
+      NorRvalue:0,   
+      SpecialTypes:[
+        {
+          name:'Refinanciado',          
+        },
+        {
+          name:'Novo'
+        }
+      ],
       Hmo:'Hmo',
       tipo2:'Tipo',
       tipo3:'Tipo3',
       valor2:'Valor',
       tipo4:'Tipo',
-      nrVendas:'Nº Vendas'
+      nrVendas:'Nº Vendas',
+      tipos: [
+        {                    
+          name:'Consignado EP/OP ',
+          value:0          
+        },
+        {          
+          name:'Consignado INSS',
+          value:0           
+        },
+        {          
+          name:'Crediario com Seguro',
+          value:1.5          
+        },
+        {          
+          name:'Crediario INSS',
+          value:1.5          
+        },
+        {          
+          name:'Crediario Sem Seguro',
+          value:1          
+        },
+        {          
+          name:'Lis',
+          value:1          
+        },
+        {          
+          name:'Parcelamento de Fatura',
+          value:1          
+        }
+      ]
     }
-    this.calcular = this.calcular.bind(this)
+    this.calcular = this.calcular.bind(this)    
+    this.NorRSet = this.NorRSet.bind(this)
   }
   calcular() {
-
+    alert(this.state.valor1 + " " + this.state.tipos[this.state.tipo1].name + ' ' + this.state.NorRvalue)
   }
+
+  NorRSet(value) {
+    this.setState({NorR:value})
+    alert(value)
+    if(this.state.tipo1 == 0 && this.state.NorR == 0){
+      this.setState({NorRvalue:1})
+    }
+    if(this.state.tipo1 == 0 && this.state.NorR == 1) {
+      this.setState({NorRvalue:2.5})
+    }
+    if(this.state.tipo1 == 1 && this.state.NorR == 0) {
+      this.setState({NorRvalue:1.5})
+    }
+    if(this.state.tipo1 == 1 && this.state.NorR == 1) {
+      this.setState({NorRvalue:4.5})
+    }
+  }
+  
   render() {
+    let tiposPicker1 = this.state.tipos.map((v,k) => {
+      return <Picker.Item value={k} key={k} label={v.name} />
+    })
+    let SpecialTypesPicker = this.state.SpecialTypes.map((v,k) => {
+      return <Picker.Item value={k} key={k} label={v.name} />
+    })
     return (
       <View style={styles.container}>
         <View style={styles.whiteContainer}>
           <View style={styles.whiteView}>
             <View style={styles.componentView}>
               <Text style={styles.title}>Produto do Crédito</Text>
-              <TextInput style={styles.TextInput} value={this.state.valor1} onChangeText={(v)=>this.setState({valor1:v})} />
-              <TextInput style={styles.TextInput} value={this.state.tipo1} onChangeText={(v)=>this.setState({tipo1:v})} />
-              <TextInput style={styles.TextInput} value={this.state.Hmo} onChangeText={(v)=>this.setState({Hmo:v})} />
+              <TextInput style={styles.TextInput} placeholder="Valor" keyboardType={'numeric'} onChangeText={(v)=>this.setState({valor1:v})} />
+              {/* <TextInput style={styles.TextInput} value={this.state.tipo1} onChangeText={(v)=>this.setState({tipo1:v})} /> */}
+              <Picker
+                selectedValue={this.state.tipo1}
+                style={styles.picker}
+                onValueChange={(itemValue, itemIndex) => this.setState({tipo1:itemValue})}>
+                {tiposPicker1}
+              </Picker>
+              {
+                renderIf(this.state.tipo1 == 0 || this.state.tipo1 == 1,  
+              <Picker
+                selectedValue={this.state.NorR}
+                style={styles.picker}
+                onValueChange={((itemValue,itemKey) => this.NorRSet(itemValue))}>
+                {SpecialTypesPicker}
+              </Picker>
+              )}              
             </View>
-            <View style={styles.componentView}>
+            {/* <View style={styles.componentView}>
               <Text style={styles.title}>Cesta do Produto</Text>
               <TextInput style={styles.TextInput} value={this.state.tipo2} onChangeText={(v)=>this.setState({tipo2:v})} />
             </View>
@@ -45,7 +124,7 @@ export default class App extends Component{
             </View>
             <View style={styles.componentView}>
               <TextInput style={styles.TextInput} value={this.state.nrVendas} onChangeText={(v)=>this.setState({nrVendas:v})} />
-            </View>
+            </View> */}
             <View style={styles.button}>
               <Button title='CALCULAR' onPress={this.calcular}/>
             </View>
@@ -96,5 +175,8 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop:60
+  }, 
+  picker:{
+    
   }
 })
