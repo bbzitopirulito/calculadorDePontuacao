@@ -7,8 +7,9 @@ export default class App extends Component{
     this.state = {
       valor1:'Valor',
       tipo1:0,
+      fator:1,
       NorR:'Refinanciado',   
-      NorRvalue:0,   
+      NorRvalue:1,   
       SpecialTypes:[
         {
           name:'Refinanciado',          
@@ -56,26 +57,47 @@ export default class App extends Component{
     }
     this.calcular = this.calcular.bind(this)    
     this.NorRSet = this.NorRSet.bind(this)
+    this.definirFator = this.definirFator.bind(this)
   }
   calcular() {
-    alert(this.state.valor1 + " " + this.state.tipos[this.state.tipo1].name + ' ' + this.state.NorRvalue)
+    this.definirFator(this.state.tipo1)
+    val = this.state.valor1 * (this.state.NorRvalue / this.state.fator)
+    alert(val)
+    // alert(this.state.valor1 + " " + this.state.tipos[this.state.tipo1].name + ' ' + this.state.NorRvalue)
   }
 
-  NorRSet(value) {
-    this.setState({NorR:value})
-    alert(value)
+  definirFator(value) {
+    if(value === 0 || 1) {
+      this.state.fator = 5000
+    } else if(value === 2 || value === 3 || value === 4) {
+      this.state.fator = 1000
+    } else if(value === 5) {
+      this.state.fator = 1000
+    } else if(value === 6) {
+      this.state.fator = 100
+    }
+  }
+
+  NorRSet(value) {        
+    this.state.NorR = value
+    // alert(this.state.NorR)
+    
     if(this.state.tipo1 == 0 && this.state.NorR == 0){
-      this.setState({NorRvalue:1})
+      this.state.NorRvalue = 1
     }
     if(this.state.tipo1 == 0 && this.state.NorR == 1) {
-      this.setState({NorRvalue:2.5})
+      this.state.NorRvalue = 2.5      
     }
     if(this.state.tipo1 == 1 && this.state.NorR == 0) {
-      this.setState({NorRvalue:1.5})
+      // this.setState({NorRvalue:1.5})
+      this.state.NorRvalue = 4.5
     }
     if(this.state.tipo1 == 1 && this.state.NorR == 1) {
-      this.setState({NorRvalue:4.5})
+      // this.setState({NorRvalue:4.5})
+      this.state.NorRvalue = 1.5
     }
+    // alert(this.state.tipo1 + ' ' + this.state.NorR)
+
   }
   
   render() {
@@ -96,7 +118,10 @@ export default class App extends Component{
               <Picker
                 selectedValue={this.state.tipo1}
                 style={styles.picker}
-                onValueChange={(itemValue, itemIndex) => this.setState({tipo1:itemValue})}>
+                onValueChange={(itemValue, itemIndex) => {
+                  alert(itemValue)
+                  this.setState({tipo1:itemValue})
+                }}>
                 {tiposPicker1}
               </Picker>
               {
@@ -104,7 +129,10 @@ export default class App extends Component{
               <Picker
                 selectedValue={this.state.NorR}
                 style={styles.picker}
-                onValueChange={((itemValue,itemKey) => this.NorRSet(itemValue))}>
+                onValueChange={((itemValue,itemKey) => {
+                  this.setState({NorR:itemValue})
+                  this.NorRSet(itemValue)
+                })}>
                 {SpecialTypesPicker}
               </Picker>
               )}              
