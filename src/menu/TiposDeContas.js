@@ -11,10 +11,18 @@ export default class TiposDeContas extends Component {
             <View style={styles.container}>
                 <View style={styles.whiteContainer}>
                     <View style={styles.whiteView}>
-                        <Button title='ProdutosDeCredito' style={styles.button} onPress={() => this.props.navigation.navigate('ProdutosDeCredito')} />
-                        <Button title='CestaDeProdutos' style={styles.button} onPress={() => this.props.navigation.navigate('CestaDeProdutos')} />
-                        <Button title='Conveniencia' style={styles.button} onPress={() => this.props.navigation.navigate('Conveniencia')} />
-                        <Button title='Renegociacao' style={styles.button} onPress={() => this.props.navigation.navigate('Renegociacao')} />
+                        <View style={styles.button}>
+                            <Button title='ProdutosDeCredito' onPress={() => this.props.navigation.navigate('ProdutosDeCredito')} />
+                        </View>
+                        <View style={styles.button}>
+                            <Button title='CestaDeProdutos' onPress={() => this.props.navigation.navigate('CestaDeProdutos')} />
+                        </View>
+                        <View style={styles.button}>
+                            <Button title='Conveniencia' onPress={() => this.props.navigation.navigate('Conveniencia')} />
+                        </View>
+                        <View style={styles.button}>
+                            <Button title='Renegociacao' onPress={() => this.props.navigation.navigate('Renegociacao')} />
+                        </View>
                     </View>
                 </View>
             </View>
