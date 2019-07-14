@@ -5,11 +5,11 @@ import Contas from './src/menu/Contas'
 import Principal from './src/menu/Principal'
 
 const AppNavigator = createDrawerNavigator({
-  Contas:{
-    screen:Contas
-  },
   Principal:{
     screen:Principal
+  },
+  Contas:{
+    screen:Contas
   },
 })
 
