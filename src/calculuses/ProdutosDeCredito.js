@@ -9,8 +9,7 @@ export default class App extends Component{
       valor1:'',
       tipo1:0,
       fator:1,
-      NorR:0,   
-      qntDuteis:'',
+      NorR:0,         
       NorRvalue:1,
       calcularPressed:false,
       produtoCreditoResult:'',
@@ -66,8 +65,8 @@ export default class App extends Component{
   calcular() {
     this.definirFator(this.state.tipo1)    
     this.NorRSet(this.state.NorR)    
-    if(this.state.valor1 !== '' && this.state.qntDuteis !== '') {
-      val = (((this.state.valor1 * (this.state.NorRvalue / this.state.fator)) * (40/100)) / this.state.qntDuteis).toFixed(2)
+    if(this.state.valor1 !== '') {
+      val = ((this.state.valor1 * (this.state.NorRvalue / this.state.fator)) * (40/100)).toFixed(2)
       this.setState({produtoCreditoResult:val})
     }
     // alert(`valor = ${val}, NorRvalue = ${this.state.NorRvalue}, Fator = ${this.state.fator}, Valor = ${this.state.valor1}`)
@@ -126,8 +125,7 @@ export default class App extends Component{
           <View style={styles.whiteView}>
             <View style={styles.componentView}>
               <Text style={styles.title}>Produto do Crédito</Text>
-              <TextInput style={styles.TextInput} placeholder="Valor" keyboardType={'numeric'} onChangeText={(v)=>this.setState({valor1:v})} />
-              <TextInput style={styles.TextInput} placeholder="Dias úteis no mês" keyboardType={'numeric'} onChangeText={(v)=>this.setState({qntDuteis:v})} />              
+              <TextInput style={styles.TextInput} placeholder="Valor" keyboardType={'numeric'} onChangeText={(v)=>this.setState({valor1:v})} />              
               <Picker
                 selectedValue={this.state.tipo1}
                 style={styles.picker}

@@ -9,8 +9,7 @@ export default class Renegociacao extends Component {
         this.state = {
             valor:'',
             Ponderador:0,
-            PonderadorValue:1,
-            qntDuteis:'', 
+            PonderadorValue:1,            
             renegociacaoResult:'',
             fator:1000,
             tipo:0,
@@ -38,9 +37,9 @@ export default class Renegociacao extends Component {
     
     calcular() {
         this.setTipoValue(this.state.Ponderador)
-        if(this.state.valor !== '' && this.state.qntDuteis !== '') {                
+        if(this.state.valor !== '') {                
             alert(this.state.PonderadorValue)
-            val = ((((this.state.valor * this.state.PonderadorValue) / this.state.fator) * 0.1) / this.state.qntDuteis).toFixed(2)                       
+            val = (((this.state.valor * this.state.PonderadorValue) / this.state.fator) * 0.1).toFixed(2)                       
             this.setState({renegociacaoResult:val})                        
         }
     }
@@ -59,8 +58,7 @@ export default class Renegociacao extends Component {
                 <View style={styles.whiteContainer}>
                     <View style={styles.whiteView}>
                         <Text style={styles.title}>Renegociação</Text>
-                        <TextInput style={styles.TextInput} placeholder='Valor' keyboardType={"numeric"} onChangeText={(v) => this.setState({valor:v})} />
-                        <TextInput style={styles.TextInput} placeholder='Dias úteis no mês' keyboardType={'numeric'} onChangeText={(v) => this.setState({qntDuteis:v})} /> 
+                        <TextInput style={styles.TextInput} placeholder='Valor' keyboardType={"numeric"} onChangeText={(v) => this.setState({valor:v})} />                        
                         <Picker
                             selectedValue={this.state.Ponderador}
                             style={styles.picker}
