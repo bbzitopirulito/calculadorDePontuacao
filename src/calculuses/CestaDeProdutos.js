@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View, TextInput, Button, Picker } from 'react-native'
 import styles from '../library/style'
 import renderIf from '../library/renderIf'
+import { HitTestResultTypes } from 'expo/build/AR';
 
 export default class CestaDeProdutos extends Component {
     constructor(props){
@@ -113,21 +114,72 @@ export default class CestaDeProdutos extends Component {
             picker1Index:0,
             picker2Index:0,
             showPicker2:false,
+            ponderadorValue:'',
             CestaDeProdutosResult:''            
         }
         this.setPicker2 = this.setPicker2.bind(this)
+        this.calcular = this.calcular.bind(this)
+        this.setPonderadorFinal = this.setPonderadorFinal.bind(this)
     }
     static navigationOptions = {
         title:CestaDeProdutos
     }
 
-    setPicker2(value) {
-        this.state.picker1Index = value
+    calcular() {
+        this.setPonderadorFinal(this.state.picker1Index)
+        alert(this.state.ponderadorValue)
+    }
 
-        if(value !== 0 || value !== 9 || value !== 10 || value !== 17 || value !== 18 || value !== 19 || value !== 21) {
+    setPonderadorFinal(value) {     
+        if(this.state.picker2Index === 1) {
+            this.state.ponderadorValue = 0.5
+        } else {
+            if(value !== 0 && value !== 9 && value !== 10 && value !== 17 && value !== 18 && value !== 19 && value !== 21) {
+                let pv = 0                
+                switch(value) {
+                    case 1:
+                    case 15:
+                    case 16:
+                    case 20:
+                        pv = 2
+                        break
+                    case 2:                    
+                    case 3 :
+                    case 11:
+                    case 13:
+                        pv = 3
+                        break
+                    case 4:
+                    case 5:
+                    case 6:
+                    case 7:
+                    case 8:
+                        pv = 4
+                        break                    
+                    case 12:                        
+                    case 22:
+                        pv = 6
+                        break
+                    case 14:
+                        pv = 1
+                        break
+                }
+                this.state.ponderadorValue = pv
+            } else {
+                this.state.ponderadorValue = this.state.Ponderador[this.state.picker1Index].value
+            }
+        }
+        
+    }
+
+    setPicker2(value) {
+        this.state.picker1Index = value        
+
+        if(value !== 0 && value !== 9 && value !== 10 && value !== 17 && value !== 18 && value !== 19 && value !== 21) {
             this.state.showPicker2 = true
         } else {
             this.state.showPicker2 = false
+            this.state.picker2Index = 0
         }
     }
     render() {
