@@ -126,8 +126,9 @@ export default class CestaDeProdutos extends Component {
     }
 
     calcular() {
-        this.setPonderadorFinal(this.state.picker1Index)
-        alert(this.state.ponderadorValue)
+        this.setPonderadorFinal(this.state.picker1Index)      
+        val = (this.state.ponderadorValue * (35/100)).toFixed(2)
+        this.setState({CestaDeProdutosResult:val})
     }
 
     setPonderadorFinal(value) {     
@@ -215,11 +216,11 @@ export default class CestaDeProdutos extends Component {
                         <View style={styles.button}>
                             <Button title="CALCULAR" onPress={this.calcular}  /> 
                         </View>
-                        {/* {renderIf(this.state.renegociacaoResult !== '' && this.state.valor !== '',
+                        {renderIf(this.state.CestaDeProdutosResult !== '',
                             <View style={styles.resultView}>
-                                <Text style={styles.result}>{this.state.renegociacaoResult.replace('.',',')}</Text>
+                                <Text style={styles.result}>{this.state.CestaDeProdutosResult.replace('.',',')}</Text>
                             </View>
-                        )} */}
+                        )}
                     </View>
                 </View>
             </View>
